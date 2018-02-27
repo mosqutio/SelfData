@@ -61,3 +61,12 @@ def get_folder_path():
     data_path = os.path.curdir + os.path.sep + data_folder
 
     return local_path, data_path
+
+
+def delete_empty_folder(root_path):
+    for root, sub_dirs, files in os.walk(root_path):
+        if not sub_dirs and not files:
+            os.removedirs(root_path)
+        else:
+            for sub_dir in sub_dirs:
+                delete_empty_folder(os.path.join(root, sub_dir))
