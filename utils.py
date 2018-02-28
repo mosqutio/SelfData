@@ -63,10 +63,33 @@ def get_folder_path():
     return local_path, data_path
 
 
-def delete_empty_folder(root_path):
+def get_hash_sum_path():
+    hash_folder = ".hash_folder"
+    hash_folder_path = os.path.curdir + os.path.sep + hash_folder
+    return hash_folder_path
+
+
+def delete_folder(root_path, delete_file=False):
     for root, sub_dirs, files in os.walk(root_path):
-        if not sub_dirs and not files:
+        if delete_file:
+            for f in files:
+                f = os.path.join(root, f)
+                os.remove(f)
+        if not sub_dirs:
             os.removedirs(root_path)
         else:
             for sub_dir in sub_dirs:
-                delete_empty_folder(os.path.join(root, sub_dir))
+                delete_folder(os.path.join(root, sub_dir), delete_file=delete_file)
+
+
+def get_file_sha256sum(file):
+    cmd = [
+        'sha256sum',
+        file,
+    ]
+
+    ret = command.run(cmd)
+    if ret.exit != 0:
+        raise Exception("Error")
+
+    return ret.output
