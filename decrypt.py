@@ -26,7 +26,7 @@ if __name__ == "__main__":
             end_time = time.time()
             if ret.exit == 0:
                 print("Decrypt %s ok.... %ss" % (data_file, end_time - start_time))
-                os.remove(data_file)
+                # os.remove(data_file)
                 sha256sum = get_file_sha256sum(target_file)
                 with open(hash_file, "w") as f:
                     f.write(str(sha256sum))

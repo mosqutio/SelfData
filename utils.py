@@ -27,6 +27,7 @@ def get_password():
     ret = os.popen(" ".join(cmd))
     pwd = ret.read().replace("\n", "").replace(":", "").replace(" ", "").replace("/", "").strip()
     pwd = hashlib.sha256(pwd.encode("utf-8")).hexdigest()
+    # print(pwd)
     return pwd
 
 
@@ -75,7 +76,7 @@ def delete_folder(root_path, delete_file=False):
             for f in files:
                 f = os.path.join(root, f)
                 os.remove(f)
-        if not sub_dirs:
+        if not sub_dirs and (not files or delete_file):
             os.removedirs(root_path)
         else:
             for sub_dir in sub_dirs:

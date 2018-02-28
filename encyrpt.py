@@ -21,8 +21,9 @@ if __name__ == "__main__":
         try:
             sha256sum = get_file_sha256sum(data_file)
             old_sha256sum = None
-            with open(hash_file, "r") as f:
-                old_sha256sum = f.read()
+            if os.path.exists(hash_file):
+                with open(hash_file, "r") as f:
+                    old_sha256sum = f.read()
 
             if str(old_sha256sum) != str(sha256sum):
                 start_time = time.time()
